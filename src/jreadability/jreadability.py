@@ -27,24 +27,22 @@ def compute_readability(text: str, tagger: Optional[Tagger] = None) -> float:
 
     doc = tagger(text)
 
-    #Remove full-width spaces, standard spaces, and empty tokens
+    # Remove full-width spaces, standard spaces, and empty tokens
     doc = [t for t in doc if t.surface.strip() and t.surface not in ("　")]
-
 
     def split_japanese_sentences(text, tagger):
         """
         Helper function that breaks the parsed text into lists of sentences.
         """
         text = text.replace("\r\n", "\n").replace("\r", "\n")
-        paragraphs = re.split(r'\n\s*\n+', text)
+        paragraphs = re.split(r"\n\s*\n+", text)
         sentences = []
 
         for paragraph in paragraphs:
-
             current_sentence = []
             doc = tagger(paragraph)
             doc = [t for t in doc if t.surface.strip() and t.surface not in ("　")]
-            
+
             for token in doc:
                 current_sentence.append(token)
 
